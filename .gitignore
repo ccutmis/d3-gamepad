@@ -1,0 +1,17 @@
+__pycache__/*
+build/*
+dist/*
+foxModules/*.pyc
+foxModules/__pycache__/*
+Lib/*
+Scripts/*
+*.spec
+*.exe
+*.pyc
+*.txt
+*.cfg
+*.bat
+*.log
+*.csv
+*.xls
+.DS_Store
