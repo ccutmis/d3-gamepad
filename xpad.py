@@ -277,6 +277,8 @@ class MyOtherHandler(EventHandler):
 if __name__ == "__main__":
     try:
         ini_filename="xinput.ini"
+        if len(sys.argv)>1 and sys.argv[1]!="" and (sys.argv[1]).split(".")[1]=="ini":
+            ini_filename=sys.argv[1]
         #讀取 xinput.ini參數
         with open(ini_filename,"r",encoding="utf-8") as f:
             tmp_content=f.read()
