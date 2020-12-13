@@ -1,5 +1,7 @@
 # resource url: https://github.com/Zuzu-Typ/XInput-Python
 # 需安裝的套件 pypiwin32 XInput-Python pynput==1.6.8
+# 要在win7能正常運作需把XInput.py裡第140~145行註解掉
+
 import time
 from XInput import *
 from datetime import datetime
