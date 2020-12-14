@@ -11,7 +11,7 @@ from Modules.WindowMgr import *
 import Modules.mouse_api as Mouse
 import traceback,sys,math,msvcrt
 
-VERSION="0001C"
+VERSION="0002C"
 
 def gent_degree_dict(divisions=360,radius=10):
     #divisions,radius=360,10
