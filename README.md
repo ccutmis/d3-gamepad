@@ -17,9 +17,9 @@
 
 ## 1. 關於 D3-XPAD :: About
 
-　　開發這個小程式的起因是在巴哈暗黑III論壇看到有網友詢問能否用XBOX搖桿玩PC版D3，當時想到可以用Python寫一個小程式獲取搖桿輸入然後模擬鍵盤滑鼠輸入，程式開發大約花了一周把大部份問題處理好，然後有巴友回報他用XBOX ONE手把沒法使用這個小程式，經過一些研究後發現先前寫好的 D3-Gamepad-Mapper，只能用XBOX360手把執行(感謝巴哈網友測試回報)。
+開發這個小程式的起因是在巴哈暗黑III論壇看到有網友詢問能否用XBOX搖桿玩PC版D3，當時想到可以用Python寫一個小程式獲取搖桿輸入然後模擬鍵盤滑鼠輸入，程式開發大約花了一周把大部份問題處理好，然後有巴友回報他用XBOX ONE手把沒法使用這個小程式，經過一些研究後發現先前寫好的 D3-Gamepad-Mapper，只能用XBOX360手把執行(感謝巴哈網友測試回報)。
 
-　　為了讓程式能支援更多不同類型手把，這邊把原本的Reposite作廢，重新開一個新的Reposite:D3-Gamepad並用XInput-Python模組為核心獲取搖桿輸入，現在程式可以在Win10環境使用XBOX360及XBOX ONE手把玩D3 (Win7測試可玩但建議OS升到Win10)。
+為了讓程式能支援更多不同類型手把，這邊把原本的Reposite作廢，重新開一個新的Reposite:D3-Gamepad並用XInput-Python模組為核心獲取搖桿輸入，現在程式可以在Win10環境使用XBOX360及XBOX ONE手把玩D3 (Win7測試可玩但建議OS升到Win10)。
 未來或許會加上對PS搖桿的支援(時間未定)
 
 -----
@@ -78,9 +78,9 @@ DELAY_SECOND=0.02
 
 ![controller-mapping](controller-mapping.png)
 
-修改 main_config.ini 注意事項:
+修改 xinput.ini 注意事項:
 1. 編輯此文件推薦使用Notepad++，如果用記事本編輯在存檔時需注意是否存為"utf-8"文件格式(不可為"Big5"或"utf-8 BOM"格式會出錯)。
-2. 只能更改KEY_CONFIG字典裡的值，例如: "BTN_A":"1" 改成 "BTN_A":"i"，這樣執行程式時按下搖桿A鍵就會模擬按下i鍵，只可修改值不可破壞格式。
+2. 只能更改KEY_CONFIG字典裡的值，例如: "A":"1" 改成 "A":"i"，這樣執行程式時按下搖桿A鍵就會模擬按下i鍵，只可修改值不可破壞格式。
 
 -----
 
