@@ -98,6 +98,8 @@ DELAY_SECOND=0.02
 1. Windows10作業系統(Win7測試可玩但建議OS升到Win10)
 2. 目前測試可支援的PC相容搖桿為XBOX360、XBOX ONE、羅技F310，其它搖桿不確定是否可正常運作。
 
+![support-equipments](support-equipments.png)
+
 -----
 
 ## 5. 特別聲明 :: Statement
