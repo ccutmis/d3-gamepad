@@ -5,17 +5,17 @@
 -----
 
 ## 目錄
-1. [關於 D3-Gamepad :: About](https://github.com/ccutmis/d3-gamepad#d3-xpad)
-2. [下載與安裝 :: Download & Install](https://github.com/ccutmis/d3-gamepad#2-%E4%B8%8B%E8%BC%89%E8%88%87%E5%AE%89%E8%A3%9D%E7%A7%BB%E9%99%A4--download--install)
-3. [如何使用 :: How to Use](https://github.com/ccutmis/d3-gamepad#3-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8--how-to-use)
-4. [注意事項 :: Notice](https://github.com/ccutmis/d3-gamepad#4-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85--notice)
-5. [特別聲明 :: Statement]https://github.com/ccutmis/d3-gamepad#5-%E7%89%B9%E5%88%A5%E8%81%B2%E6%98%8E--statement)
-6. [更新日誌 :: Log](https://github.com/ccutmis/d3-gamepad#6-%E6%9B%B4%E6%96%B0%E6%97%A5%E8%AA%8C--log)
-7. [參考資源 :: References](https://github.com/ccutmis/d3-gamepad#7-%E5%8F%83%E8%80%83%E8%B3%87%E6%BA%90--references)
+1. [關於 D3-XPAD :: About]()
+2. [下載與安裝 :: Download & Install]()
+3. [如何使用 :: How to Use]()
+4. [注意事項 :: Notice]()
+5. [特別聲明 :: Statement]()
+6. [更新日誌 :: Log]()
+7. [參考資源 :: References]()
 
 -----
 
-## 1. 關於 D3-XPAD
+## 1. 關於 D3-XPAD :: About
 
 　　開發這個小程式的起因是在巴哈暗黑III論壇看到有網友詢問能否用XBOX搖桿玩PC版D3，當時想到可以用Python寫一個小程式獲取搖桿輸入然後模擬鍵盤滑鼠輸入，程式開發大約花了一周把大部份問題處理好，然後有巴友回報他用XBOX ONE手把沒法使用這個小程式，經過一些研究後發現先前寫好的 D3-Gamepad-Mapper，只能用XBOX360手把執行(感謝巴哈網友測試回報)。
 
@@ -24,7 +24,7 @@
 
 -----
 
-## 2. 下載與安裝移除 | Download & Install
+## 2. 下載與安裝移除 :: Download & Install
 
 D3-XPAD下載點:
 
@@ -84,7 +84,7 @@ DELAY_SECOND=0.02
 
 -----
 
-## 3. 如何使用 | How to Use
+## 3. 如何使用 :: How to Use
 
 1. 先開啟Diablo III，將畫面顯示設為"全螢幕視窗模式"或"視窗模式"。(這個很重要)
 2. 確定你的xbox搖桿有接在PC端並正常運作中(可在控制台裡的裝置及印表機項目確認)
@@ -92,7 +92,7 @@ DELAY_SECOND=0.02
 
 -----
 
-## 4. 注意事項 | Notice
+## 4. 注意事項 :: Notice
 
 ### 設備需求:
 1. Windows10作業系統(Win7測試可玩但建議OS升到Win10)
@@ -100,7 +100,7 @@ DELAY_SECOND=0.02
 
 -----
 
-## 5. 特別聲明 | Statement
+## 5. 特別聲明 :: Statement
 
 * 本程式無償提供任何人使用，歡迎轉載連結。
 * 本程式執行時會依搖桿輸入模擬鍵盤滑鼠動作，若在執行中造成任何非預期之損失概不負責，特此聲明。
@@ -108,7 +108,7 @@ DELAY_SECOND=0.02
 
 -----
 
-## 6. 更新日誌 | Log
+## 6. 更新日誌 :: Log
 
 ### 更新日期: 2020-12-14 12:30:00 ver.0002C
 更新內容:
@@ -117,7 +117,7 @@ DELAY_SECOND=0.02
 
 -----
 
-## 7. 參考資源 | References
+## 7. 參考資源 :: References
 
 ### xpad.py 編譯參考資料
 * resource url: https://github.com/Zuzu-Typ/XInput-Python
