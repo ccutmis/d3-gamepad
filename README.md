@@ -5,13 +5,13 @@
 -----
 
 ## 目錄
-1. [關於 D3-XPAD :: About]()
-2. [下載與安裝 :: Download & Install]()
-3. [如何使用 :: How to Use]()
-4. [注意事項 :: Notice]()
-5. [特別聲明 :: Statement]()
-6. [更新日誌 :: Log]()
-7. [參考資源 :: References]()
+1. [關於 D3-XPAD :: About](https://github.com/ccutmis/d3-gamepad#1-%E9%97%9C%E6%96%BC-d3-xpad--about)
+2. [下載與安裝 :: Download & Install](https://github.com/ccutmis/d3-gamepad#2-%E4%B8%8B%E8%BC%89%E8%88%87%E5%AE%89%E8%A3%9D%E7%A7%BB%E9%99%A4--download--install)
+3. [如何使用 :: How to Use](https://github.com/ccutmis/d3-gamepad#3-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8--how-to-use)
+4. [注意事項 :: Notice](https://github.com/ccutmis/d3-gamepad#4-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85--notice)
+5. [特別聲明 :: Statement](https://github.com/ccutmis/d3-gamepad#5-%E7%89%B9%E5%88%A5%E8%81%B2%E6%98%8E--statement)
+6. [更新日誌 :: Log](https://github.com/ccutmis/d3-gamepad#6-%E6%9B%B4%E6%96%B0%E6%97%A5%E8%AA%8C--log)
+7. [參考資源 :: References](https://github.com/ccutmis/d3-gamepad#7-%E5%8F%83%E8%80%83%E8%B3%87%E6%BA%90--references)
 
 -----
 
