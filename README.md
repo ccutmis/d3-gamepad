@@ -28,7 +28,7 @@
 
 D3-XPAD下載點:
 
-[XPAD-0001C.zip](XPAD-0001C.zip)
+[XPAD-0002C.zip](XPAD-0002C.zip)
 
 下載並解壓縮會得到一個 dist 資料夾，裡面有四個檔案:
 
