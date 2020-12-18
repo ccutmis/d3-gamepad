@@ -3,8 +3,9 @@ HWCLASS_LOW="2"
 HWCLASS_HIGH="5"
 D3TXT_DIR=os.path.expanduser("~\\Documents\\Diablo III\\")
 D3TXT_URL=D3TXT_DIR+"D3Prefs.txt"
-WH1024X768=["1032","759","1024","768","1024","732"]
-WH1920X1080=["1517","1042","1024","768","1509","1015"]
+DICT_1024X768={'DisplayModeWindowMode':'1','DisplayModeWinWidth':'1032','DisplayModeWinHeight':'759','DisplayModeUIOptWidth':'1024','DisplayModeUIOptHeight ':'768','DisplayModeWidth':'1024','DisplayModeHeight':'732'}
+DICT_1920X1080={'DisplayModeWindowMode':'1', 'DisplayModeWinWidth':'1517', 'DisplayModeWinHeight':'1042','DisplayModeUIOptWidth':'1024', 'DisplayModeUIOptHeight ':'768', 'DisplayModeWidth':'1509', 'DisplayModeHeight':'1015' }
+
 
 """ 逐行讀取文字檔並傳回陣列 """
 def read_file_into_list(file_loc,write_mode="r",encode_set="utf-8",split_char="\n"):
@@ -51,38 +52,18 @@ if __name__=="__main__":
         if choose==5:
             exit(0)
         elif choose==1:
+            tmp_list=[i for i in DICT_1024X768.keys()]
             for i in range(0,len(txt_arr)):
-                if txt_arr[i].find('DisplayModeWindowMode')!=-1:
-                    txt_arr[i]='DisplayModeWindowMode "1"'
-                elif txt_arr[i].find('DisplayModeWinWidth')!=-1:
-                    txt_arr[i]='DisplayModeWinWidth "'+WH1024X768[0]+'"'
-                elif txt_arr[i].find('DisplayModeWinHeight')!=-1:
-                    txt_arr[i]='DisplayModeWinHeight "'+WH1024X768[1]+'"'
-                elif txt_arr[i].find('DisplayModeUIOptWidth')!=-1:
-                    txt_arr[i]='DisplayModeUIOptWidth "'+WH1024X768[2]+'"'
-                elif txt_arr[i].find('DisplayModeUIOptHeight')!=-1:
-                    txt_arr[i]='DisplayModeUIOptHeight "'+WH1024X768[3]+'"'
-                elif txt_arr[i].find('DisplayModeWidth')!=-1:
-                    txt_arr[i]='DisplayModeWidth "'+WH1024X768[4]+'"'
-                elif txt_arr[i].find('DisplayModeHeight')!=-1:
-                    txt_arr[i]='DisplayModeHeight "'+WH1024X768[5]+'"'
+                tmp_str=re.findall("(^[^ ]+) ",txt_arr[i])[0] if txt_arr[i]!="" else ""
+                if tmp_str!="" and tmp_str in tmp_list:
+                    txt_arr[i]=tmp_str+' "'+DICT_1024X768[tmp_str]+'"'
             write_file_from_list(D3TXT_URL,txt_arr)
         elif choose==2:
+            tmp_list=[i for i in DICT_1920X1080.keys()]
             for i in range(0,len(txt_arr)):
-                if txt_arr[i].find('DisplayModeWindowMode')!=-1:
-                    txt_arr[i]='DisplayModeWindowMode "1"'
-                elif txt_arr[i].find('DisplayModeWinWidth')!=-1:
-                    txt_arr[i]='DisplayModeWinWidth "'+WH1920X1080[0]+'"'
-                elif txt_arr[i].find('DisplayModeWinHeight')!=-1:
-                    txt_arr[i]='DisplayModeWinHeight "'+WH1920X1080[1]+'"'
-                elif txt_arr[i].find('DisplayModeUIOptWidth')!=-1:
-                    txt_arr[i]='DisplayModeUIOptWidth "'+WH1920X1080[2]+'"'
-                elif txt_arr[i].find('DisplayModeUIOptHeight')!=-1:
-                    txt_arr[i]='DisplayModeUIOptHeight "'+WH1920X1080[3]+'"'
-                elif txt_arr[i].find('DisplayModeWidth')!=-1:
-                    txt_arr[i]='DisplayModeWidth "'+WH1920X1080[4]+'"'
-                elif txt_arr[i].find('DisplayModeHeight')!=-1:
-                    txt_arr[i]='DisplayModeHeight "'+WH1920X1080[5]+'"'
+                tmp_str=re.findall("(^[^ ]+) ",txt_arr[i])[0] if txt_arr[i]!="" else ""
+                if tmp_str!="" and tmp_str in tmp_list:
+                    txt_arr[i]=tmp_str+' "'+DICT_1920X1080[tmp_str]+'"'
             write_file_from_list(D3TXT_URL,txt_arr)
         elif choose==3:
             for i in range(0,len(txt_arr)):
