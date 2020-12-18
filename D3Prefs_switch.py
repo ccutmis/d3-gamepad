@@ -1,11 +1,4 @@
-import os,re,time
-HWCLASS_LOW="2"
-HWCLASS_HIGH="5"
-D3TXT_DIR=os.path.expanduser("~\\Documents\\Diablo III\\")
-D3TXT_URL=D3TXT_DIR+"D3Prefs.txt"
-DICT_1024X768={'DisplayModeWindowMode':'1','DisplayModeWinWidth':'1032','DisplayModeWinHeight':'759','DisplayModeUIOptWidth':'1024','DisplayModeUIOptHeight ':'768','DisplayModeWidth':'1024','DisplayModeHeight':'732'}
-DICT_1920X1080={'DisplayModeWindowMode':'1', 'DisplayModeWinWidth':'1517', 'DisplayModeWinHeight':'1042','DisplayModeUIOptWidth':'1024', 'DisplayModeUIOptHeight ':'768', 'DisplayModeWidth':'1509', 'DisplayModeHeight':'1015' }
-
+import os,re,sys
 
 """ 逐行讀取文字檔並傳回陣列 """
 def read_file_into_list(file_loc,write_mode="r",encode_set="utf-8",split_char="\n"):
@@ -17,11 +10,7 @@ def write_file_from_list(file_loc,tmp_list=[],write_mode="w+",encode_set="utf-8"
     if len(tmp_list)!=0:
         with open(file_loc,write_mode,encoding=encode_set) as f:
             for i in tmp_list:
-                #try:
                 f.writelines(i+'\n')
-                #except:
-                #    print('error:'+i)
-                #    input("===========")
         f.close()
         print("[ OK ] 陣列寫入文字檔 "+get_file_fullname(file_loc)+" 完成!  文件編碼:"+encode_set+"")
     else:
@@ -42,7 +31,25 @@ def read_d3_txt(d3_txt_url):
         content=f.readlines()
     return content
 
+def process_d3_txt(tmp_dict,tmp_arr):
+    tmp_list=[i for i in tmp_dict.keys()]
+    for i in range(0,len(tmp_arr)):
+        tmp_str=re.findall("(^[^ ]+) ",tmp_arr[i])[0] if tmp_arr[i]!="" else ""
+        if tmp_str!="" and tmp_str in tmp_list:
+            tmp_arr[i]=tmp_str+' "'+tmp_dict[tmp_str]+'"'
+    return tmp_arr
+
 if __name__=="__main__":
+    ini_filename="D3Prefs.ini"
+    if len(sys.argv)>1 and sys.argv[1]!="" and (sys.argv[1]).split(".")[1]=="ini":
+        ini_filename=sys.argv[1]
+        #讀取 D3Prefs.ini參數
+    with open(ini_filename,"r",encoding="utf-8") as f:
+        tmp_content=f.read()
+    exec(tmp_content)
+    D3TXT_DIR=os.path.expanduser("~\\Documents\\Diablo III\\")
+    D3TXT_URL=D3TXT_DIR+"D3Prefs.txt"
+
     txt_arr=read_file_into_list(D3TXT_URL)
     write_file_from_list(D3TXT_URL.replace(".txt","_BACKUP.txt"),txt_arr)
     print(get_file_fullname(D3TXT_URL)+" 已備份為"+get_file_fullname(D3TXT_URL.replace(".txt","_BACKUP.txt"))+"\n-----------------------------------------------")
@@ -52,18 +59,10 @@ if __name__=="__main__":
         if choose==5:
             exit(0)
         elif choose==1:
-            tmp_list=[i for i in DICT_1024X768.keys()]
-            for i in range(0,len(txt_arr)):
-                tmp_str=re.findall("(^[^ ]+) ",txt_arr[i])[0] if txt_arr[i]!="" else ""
-                if tmp_str!="" and tmp_str in tmp_list:
-                    txt_arr[i]=tmp_str+' "'+DICT_1024X768[tmp_str]+'"'
+            txt_arr=process_d3_txt(DICT_1024X768,txt_arr)
             write_file_from_list(D3TXT_URL,txt_arr)
         elif choose==2:
-            tmp_list=[i for i in DICT_1920X1080.keys()]
-            for i in range(0,len(txt_arr)):
-                tmp_str=re.findall("(^[^ ]+) ",txt_arr[i])[0] if txt_arr[i]!="" else ""
-                if tmp_str!="" and tmp_str in tmp_list:
-                    txt_arr[i]=tmp_str+' "'+DICT_1920X1080[tmp_str]+'"'
+            txt_arr=process_d3_txt(DICT_1920X1080,txt_arr)
             write_file_from_list(D3TXT_URL,txt_arr)
         elif choose==3:
             for i in range(0,len(txt_arr)):
