@@ -1,4 +1,5 @@
 # 需安裝的套件 pypiwin32 pynput==1.6.8
+# 版本更新項目 追加ABXY自動連按設定(xinput.ini)及功能實作(xpad.py)
 
 VERSION="0003C"
 
@@ -47,7 +48,12 @@ if __name__ == "__main__":
         global_var.delay_second =DELAY_SECOND
         global_var.y_center_offset =Y_CENTER_OFFSET
         global_var.btn_dict =BTN_DICT
+        global_var.btn2_dict =BTN2_DICT
+        global_var.onoff_list=[]
         global_var.debug_mode =DEBUG_MODE
+        global_var.key_onoff_mode=KEY_ONOFF_MODE
+        global_var.keys_stat_last=[False,False,False,False,False,False,False,False,False,False,False,False,False,False]
+        global_var.current_onoff=[0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         #全域變數區.END
         from Modules.MyHandler import *
         handler = MyHandler(0,global_var_obj=global_var) # initialize handler object
@@ -67,6 +73,7 @@ if __name__ == "__main__":
                     Mouse.set_pos(handler.global_var.x_center+xx*handler.global_var.xy_offset_unit*2,handler.global_var.y_center+yy*handler.global_var.xy_offset_unit*2)
                     if SET_LEFT_CONTROLLER_MOVE_AND_CLICK==True:
                         handler.kb_press_eval_key(LEFT_CONTROLLER_CLICK_VAL)
+                        time.sleep(DELAY_SECOND)
                         handler.kb_release_eval_key(LEFT_CONTROLLER_CLICK_VAL)
                 elif handler.global_var.stick_stat[1]==2:
                     if handler.global_var.xy_offset_bonus<20: handler.global_var.xy_offset_bonus+=0.5
@@ -75,7 +82,13 @@ if __name__ == "__main__":
                     Mouse.move_to(xx,yy)
                 else:
                     handler.global_var.xy_offset_bonus=0
+                if len(handler.global_var.onoff_list)>0:
+                    for i in handler.global_var.onoff_list:
+                        handler.kb_press_eval_key(i)
+                        time.sleep(DELAY_SECOND)
+                        handler.kb_release_eval_key(i)
             time.sleep(DELAY_SECOND)
+            #print(handler.global_var.onoff_list)
     except Exception as e:
         error_class = e.__class__.__name__ #取得錯誤類型
         detail = e.args[0] #取得詳細內容

@@ -25,7 +25,12 @@ class IniVariable:
         self.delay_second =None
         self.y_center_offset =None
         self.btn_dict =None
+        self.btn2_dict =None
+        self.onoff_list =None
         self.debug_mode =None
+        self.key_onoff_mode = None
+        self.keys_stat_last = None
+        self.current_onoff = None
 
     def gent_degree_dict(self,divisions=360,radius=10):
         #divisions,radius=360,10

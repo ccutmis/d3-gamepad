@@ -11,30 +11,49 @@ class MyHandler(EventHandler):
             keyboard = Controller()
             if event.button in self.global_var.key_config.keys():
                 key_val=self.global_var.key_config[event.button]
-                if event.type==3:
-                    if key_val not in ["LM","RM"]:
-                        if len(key_val)==1:
-                            keyboard.press(key_val)
+                if key_val!="": #不是空白才繼續動作
+                    x=self.global_var.btn_dict[event.button]
+                    if event.type==3:
+                        if self.global_var.key_onoff_mode[event.button]==1 and key_val in self.global_var.onoff_list: #先前已按
+                                self.global_var.onoff_list.remove(key_val)
                         else:
-                            keyboard.press(eval("Key."+key_val))
+                            if self.global_var.key_onoff_mode[event.button]==1:
+                                #檢查current_onoff[x]是否為0
+                                if key_val not in self.global_var.onoff_list:
+                                    self.global_var.onoff_list.append(key_val)
+                                    self.kb_press_eval_key(key_val)
+                                    sleep(0.1)
+                                    self.kb_release_eval_key(key_val)
+                            if key_val not in ["LM","RM"]:
+                                if len(key_val)==1:
+                                    keyboard.press(key_val)
+                                else:
+                                    keyboard.press(eval("Key."+key_val))
+                            else:
+                                self.global_var.cx,self.global_var.cy=Mouse.get_pos()
+                                if key_val=="LM":
+                                    Mouse.click("left",self.global_var.cx,self.global_var.cy)
+                                else:
+                                    Mouse.click("right",self.global_var.cx,self.global_var.cy)
+                            self.global_var.keys_stat_last[x]=True
                     else:
-                        self.global_var.cx,self.global_var.cy=Mouse.get_pos()
-                        if key_val=="LM":
-                            Mouse.click("left",self.global_var.cx,self.global_var.cy)
-                        else:
-                            Mouse.click("right",self.global_var.cx,self.global_var.cy)
-                else:
-                    if key_val not in ["LM","RM"]:
-                        if len(key_val)==1:
-                            keyboard.release(key_val)
-                        else:
-                            keyboard.release(eval("Key."+key_val))
-                    else:
-                        self.global_var.cx,self.global_var.cy=Mouse.get_pos()
-                        if key_val=="LM":
-                            Mouse.click("left",self.global_var.cx,self.global_var.cy,0)
-                        else:
-                            Mouse.click("right",self.global_var.cx,self.global_var.cy,0)
+                        if self.global_var.key_onoff_mode[event.button]==1 and self.global_var.btn2_dict[x] in self.global_var.onoff_list:
+                            self.kb_press_eval_key(key_val)
+                            sleep(0.1)
+                            self.kb_release_eval_key(key_val)
+                        if self.global_var.keys_stat_last[x]==True: #先前已按目前沒按
+                            if key_val not in ["LM","RM"]:
+                                if len(key_val)==1:
+                                    keyboard.release(key_val)
+                                else:
+                                    keyboard.release(eval("Key."+key_val))
+                            else:
+                                self.global_var.cx,self.global_var.cy=Mouse.get_pos()
+                                if key_val=="LM":
+                                    Mouse.click("left",self.global_var.cx,self.global_var.cy,0)
+                                else:
+                                    Mouse.click("right",self.global_var.cx,self.global_var.cy,0)
+                            self.global_var.keys_stat_last[x]=False
 
     def process_stick_event(self, event):
         w=WindowMgr()
@@ -80,62 +99,64 @@ class MyHandler(EventHandler):
         if event.trigger == LEFT:
             scroll_val=int(round(40 * event.value, 0))
             key_val=self.global_var.key_config["LEFT_TRIGER"]
-            if self.global_var.triger_stat[0]==0:
-                if key_val not in ["LM","RM"]:
-                    if len(key_val)==1:
-                        keyboard.press(key_val)
+            if key_val!="": #不是空白才繼續動作
+                if self.global_var.triger_stat[0]==0:
+                    if key_val not in ["LM","RM"]:
+                        if len(key_val)==1:
+                            keyboard.press(key_val)
+                        else:
+                            keyboard.press(eval("Key."+key_val))
                     else:
-                        keyboard.press(eval("Key."+key_val))
-                else:
-                    cx,cy=Mouse.get_pos()
-                    if key_val=="LM":
-                        Mouse.click("left",cx,cy)
+                        cx,cy=Mouse.get_pos()
+                        if key_val=="LM":
+                            Mouse.click("left",cx,cy)
+                        else:
+                            Mouse.click("right",cx,cy)
+                    self.global_var.triger_stat[0]=1
+                elif scroll_val==0:
+                    if key_val not in ["LM","RM"]:
+                        if len(key_val)==1:
+                            keyboard.release(key_val)
+                        else:
+                            keyboard.release(eval("Key."+key_val))
                     else:
-                        Mouse.click("right",cx,cy)
-                self.global_var.triger_stat[0]=1
-            elif scroll_val==0:
-                if key_val not in ["LM","RM"]:
-                    if len(key_val)==1:
-                        keyboard.release(key_val)
-                    else:
-                        keyboard.release(eval("Key."+key_val))
-                else:
-                    cx,cy=Mouse.get_pos()
-                    if key_val=="LM":
-                        Mouse.click("left",cx,cy,0)
-                    else:
-                        Mouse.click("right",cx,cy,0)
-                self.global_var.triger_stat[0]=0
+                        cx,cy=Mouse.get_pos()
+                        if key_val=="LM":
+                            Mouse.click("left",cx,cy,0)
+                        else:
+                            Mouse.click("right",cx,cy,0)
+                    self.global_var.triger_stat[0]=0
             
         elif event.trigger == RIGHT:
             scroll_val=int(round(40 * event.value, 0))
             key_val=self.global_var.key_config["RIGHT_TRIGER"]
-            if self.global_var.triger_stat[1]==0:
-                if key_val not in ["LM","RM"]:
-                    if len(key_val)==1:
-                        keyboard.press(key_val)
+            if key_val!="": #不是空白才繼續動作
+                if self.global_var.triger_stat[1]==0:
+                    if key_val not in ["LM","RM"]:
+                        if len(key_val)==1:
+                            keyboard.press(key_val)
+                        else:
+                            keyboard.press(eval("Key."+key_val))
                     else:
-                        keyboard.press(eval("Key."+key_val))
-                else:
-                    cx,cy=Mouse.get_pos()
-                    if key_val=="LM":
-                        Mouse.click("left",cx,cy)
+                        cx,cy=Mouse.get_pos()
+                        if key_val=="LM":
+                            Mouse.click("left",cx,cy)
+                        else:
+                            Mouse.click("right",cx,cy)
+                    self.global_var.triger_stat[1]=1
+                elif scroll_val==0:
+                    if key_val not in ["LM","RM"]:
+                        if len(key_val)==1:
+                            keyboard.release(key_val)
+                        else:
+                            keyboard.release(eval("Key."+key_val))
                     else:
-                        Mouse.click("right",cx,cy)
-                self.global_var.triger_stat[1]=1
-            elif scroll_val==0:
-                if key_val not in ["LM","RM"]:
-                    if len(key_val)==1:
-                        keyboard.release(key_val)
-                    else:
-                        keyboard.release(eval("Key."+key_val))
-                else:
-                    cx,cy=Mouse.get_pos()
-                    if key_val=="LM":
-                        Mouse.click("left",cx,cy,0)
-                    else:
-                        Mouse.click("right",cx,cy,0)
-                self.global_var.triger_stat[1]=0
+                        cx,cy=Mouse.get_pos()
+                        if key_val=="LM":
+                            Mouse.click("left",cx,cy,0)
+                        else:
+                            Mouse.click("right",cx,cy,0)
+                    self.global_var.triger_stat[1]=0
 
     def process_connection_event(self, event):
         if event.type == EVENT_CONNECTED:
@@ -166,33 +187,35 @@ class MyHandler(EventHandler):
     def kb_press_eval_key(self,key_val):
         global cx,cy
         keyboard = Controller()
-        if key_val not in ["LM","RM"]:
-            if len(key_val)==1:
-                keyboard.press(key_val)
+        if key_val!="": #不是空白才繼續動作
+            if key_val not in ["LM","RM"]:
+                if len(key_val)==1:
+                    keyboard.press(key_val)
+                else:
+                    keyboard.press(eval("Key."+key_val))
             else:
-                keyboard.press(eval("Key."+key_val))
-        else:
-            cx,cy=Mouse.get_pos()
-            if key_val=="LM":
-                Mouse.click("left",cx,cy)
-                #Mouse.click("left",cx,cy,0)
-            else:
-                Mouse.click("right",cx,cy)
-                #Mouse.click("right",cx,cy,0)
+                cx,cy=Mouse.get_pos()
+                if key_val=="LM":
+                    Mouse.click("left",cx,cy)
+                    #Mouse.click("left",cx,cy,0)
+                else:
+                    Mouse.click("right",cx,cy)
+                    #Mouse.click("right",cx,cy,0)
     
     def kb_release_eval_key(self,key_val):
         global cx,cy
         keyboard = Controller()
-        if key_val not in ["LM","RM"]:
-            if len(key_val)==1:
-                keyboard.release(key_val)
+        if key_val!="": #不是空白才繼續動作
+            if key_val not in ["LM","RM"]:
+                if len(key_val)==1:
+                    keyboard.release(key_val)
+                else:
+                    keyboard.release(eval("Key."+key_val))
             else:
-                keyboard.release(eval("Key."+key_val))
-        else:
-            cx,cy=Mouse.get_pos()
-            if key_val=="LM":
-                #Mouse.click("left",cx,cy)
-                Mouse.click("left",cx,cy,0)
-            else:
-                #Mouse.click("right",cx,cy)
-                Mouse.click("right",cx,cy,0)
+                cx,cy=Mouse.get_pos()
+                if key_val=="LM":
+                    #Mouse.click("left",cx,cy)
+                    Mouse.click("left",cx,cy,0)
+                else:
+                    #Mouse.click("right",cx,cy)
+                    Mouse.click("right",cx,cy,0)
