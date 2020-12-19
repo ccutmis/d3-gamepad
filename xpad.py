@@ -54,7 +54,7 @@ if __name__ == "__main__":
         thread = GamepadThread(handler)                 # initialize controller thread
         while 1:
             if msvcrt.kbhit() and msvcrt.getch() == chr(8).encode():
-                exit(0)
+                sys.exit()
             #判斷當前視窗完整標題文字是否包含 ACTIVE_WIN_TITLE 設定之文字，若是才繼續後續處理...
             if ACTIVE_WIN_TITLE in w.active_window_title():
                 handler.global_var.win_pos_size=w.get_window_pos_size() #[x,y,w,h]
@@ -88,4 +88,4 @@ if __name__ == "__main__":
         with open('runtime_error.log','a+',encoding='utf-8') as f:
             f.writelines(datetime.now().strftime("%Y-%m-%d %H:%M:%S")+'\t'+errMsg+'\n')
         print(errMsg)
-        exit(0)
+        sys.exit()
