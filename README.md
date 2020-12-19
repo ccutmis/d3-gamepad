@@ -1,6 +1,6 @@
 # D3-XPAD
 
-### 更新日期: 2020-12-14 12:30:00 ver.0002C
+### 更新日期: 2020-12-19 23:00:00 ver.0003C
 
 -----
 
@@ -28,7 +28,7 @@
 
 D3-XPAD下載點:
 
-[XPAD-0002C.zip](XPAD-0002C.zip)
+[XPAD-0003C.zip](XPAD-0003C.zip)
 
 下載並解壓縮會得到一個 dist 資料夾，裡面有二個檔案:
 
@@ -36,7 +36,7 @@ D3-XPAD下載點:
 * xinput.ini (搖桿對應設定檔，建議使用Notepad++編輯)
 本軟體無需安裝，將下載完成解壓縮的資料夾放到桌面(或好找的路徑)即完成部署。程式執行時不會修改電腦機碼，若要移除就是直接把主程式跟設定檔刪除即可。
 
-### xinput.ini 設定檔內容-可自定義部份
+### xinput.ini 設定檔內容
 
 ```
 #這是一行註解
@@ -62,6 +62,25 @@ KEY_CONFIG={
 	"RIGHT_TRIGER":"RM"
 }
 
+#設定按鍵改為ON/OFF模式，就是按一下就保持按下狀態，再按一下就取消，
+#目前設定所有按鍵關閉此功能，可依自己需求作更改，1為ON，0為OFF，本功能需小心使用。
+KEY_ONOFF_MODE={
+	"A":0,
+	"B":0,
+	"X":0,
+	"Y":0,
+	"BACK":0,
+	"START":0,
+	"DPAD_UP":0,
+	"DPAD_DOWN":0,
+	"DPAD_LEFT":0,
+	"DPAD_RIGHT":0,
+	"LEFT_SHOULDER":0,
+	"RIGHT_SHOULDER":0,
+	"LEFT_TRIGER":0,
+	"RIGHT_TRIGER":0
+}
+
 #設定左小搖桿在控制滑鼠移動後是否按一下滑鼠左鍵
 #設為 True 則在左小搖桿控制滑鼠移動後會在滑鼠所在位置按一下左鍵，要取消則設為 False
 SET_LEFT_CONTROLLER_MOVE_AND_CLICK = True
@@ -72,7 +91,17 @@ LEFT_CONTROLLER_CLICK_VAL = "LM"
 XY_OFFSET_UNIT=8
 
 #延時設定(基本上勿動)
-DELAY_SECOND=0.02
+DELAY_SECOND=0.05
+
+#Y軸中心點修正(基本上勿動)
+Y_CENTER_OFFSET=-(XY_OFFSET_UNIT*7)
+
+#勿動BTN_DICT及BTN2_DICT
+BTN_DICT={ "A":0, "B":1, "X":2, "Y":3, "BACK":4, "START":5, "DPAD_UP":6, "DPAD_DOWN":7, "DPAD_LEFT":8, "DPAD_RIGHT":9, "LEFT_SHOULDER":10, "RIGHT_SHOULDER":11, "LEFT_TRIGER":12, "RIGHT_TRIGER":13 }
+BTN2_DICT={ 0:"A", 1:"B", 2:"X", 3:"Y", 4:"BACK", 5:"START", 6:"DPAD_UP", 7:"DPAD_DOWN", 8:"DPAD_LEFT", 9:"DPAD_RIGHT", 10:"LEFT_SHOULDER", 11:"RIGHT_SHOULDER", 12:"LEFT_TRIGER", 13:"RIGHT_TRIGER" }
+#是否啟用degug模式(勿動) 預設值為False
+DEBUG_MODE=False
+
 
 ```
 
@@ -111,6 +140,12 @@ DELAY_SECOND=0.02
 -----
 
 ## 6. 更新日誌 :: Log
+
+### 更新日期: 2020-12-19 23:00:00 ver.0003C
+更新內容:
+* 重整 xpad.py 混亂的代碼 將class整合到Modules裡
+* 由於必須改寫XInput.py裡某個class的建構式才能做到class重整，因此將XInput.py整合到Modules裡，未來XInput-Python就不需安裝了
+* 追加設定檔功能: 設定按鍵為ON/OFF模式
 
 ### 更新日期: 2020-12-14 12:30:00 ver.0002C
 更新內容:
