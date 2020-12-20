@@ -31,6 +31,7 @@ class IniVariable:
         self.key_onoff_mode = None
         self.keys_stat_last = None
         self.current_onoff = None
+        self.in_active_win = None
 
     def gent_degree_dict(self,divisions=360,radius=10):
         #divisions,radius=360,10

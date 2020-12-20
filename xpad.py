@@ -27,7 +27,8 @@ if __name__ == "__main__":
         controller1=get_connected()
         if(controller1[0]==True):
             print("-------------------------------")
-            print("偵測到控制器 按下 [←Backspace] 可關閉程式")
+            print("偵測到控制器 在此視窗中按下 [←Backspace] 可關閉程式")
+            print("或同時按住控制器:(LEFT_SHOULDER)+(RIGHT_SHOULDER)+(X)關閉程式")
             print("程式版本:"+VERSION+"\t監控視窗:"+ACTIVE_WIN_TITLE)
             print("-------------------------------")
         else:
@@ -54,15 +55,19 @@ if __name__ == "__main__":
         global_var.key_onoff_mode=KEY_ONOFF_MODE
         global_var.keys_stat_last=[False,False,False,False,False,False,False,False,False,False,False,False,False,False]
         global_var.current_onoff=[0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        global_var.in_active_win=False
         #全域變數區.END
         from Modules.MyHandler import *
         handler = MyHandler(0,global_var_obj=global_var) # initialize handler object
         thread = GamepadThread(handler)                 # initialize controller thread
         while 1:
+            if handler.global_var.keys_stat_last[2]==True and handler.global_var.keys_stat_last[11]==True and handler.global_var.keys_stat_last[11]==True:
+                sys.exit()
             if msvcrt.kbhit() and msvcrt.getch() == chr(8).encode():
                 sys.exit()
             #判斷當前視窗完整標題文字是否包含 ACTIVE_WIN_TITLE 設定之文字，若是才繼續後續處理...
             if ACTIVE_WIN_TITLE in w.active_window_title():
+                handler.global_var.in_active_win=True
                 handler.global_var.win_pos_size=w.get_window_pos_size() #[x,y,w,h]
                 time.sleep(DELAY_SECOND)
                 handler.global_var.x_center=int(handler.global_var.win_pos_size[0]+(handler.global_var.win_pos_size[2]/2))
@@ -87,6 +92,8 @@ if __name__ == "__main__":
                         handler.kb_press_eval_key(i)
                         time.sleep(DELAY_SECOND)
                         handler.kb_release_eval_key(i)
+            else:
+                handler.global_var.in_active_win=False
             time.sleep(DELAY_SECOND)
             #print(handler.global_var.onoff_list)
     except Exception as e:
