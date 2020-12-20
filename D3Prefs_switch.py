@@ -55,26 +55,30 @@ if __name__=="__main__":
     print(get_file_fullname(D3TXT_URL)+" 已備份為"+get_file_fullname(D3TXT_URL.replace(".txt","_BACKUP.txt"))+"\n-----------------------------------------------")
     print("D3Prefs.txt 設定快速切換器")
     while 1:
-        choose=((lambda x:int(x) if re.search("^[0-9]+$",x)!=None else "Not Number!")(input("請輸入選項:(1-5) \n1)設為1024x768視窗模式\n2)設為1920x1080視窗模式\n3)設為全螢幕視窗模式\n4)降低硬件級數為2\n5)提高硬件級數為5\n6)離開程式\n "))) 
-        if choose==6:
+        choose=((lambda x:int(x) if re.search("^[0-9]+$",x)!=None else "Not Number!")
+        (input("請輸入選項:(1-7) \n1)設為800x600視窗模式\n2)設為1024x768視窗模式\n3)設為1920x1080視窗模式\n4)設為全螢幕視窗模式\n5)降低硬件級數為2\n6)提高硬件級數為5\n7)離開程式\n "))) 
+        if choose==7:
             exit(0)
         elif choose==1:
-            txt_arr=process_d3_txt(DICT_1024X768,txt_arr)
+            txt_arr=process_d3_txt(DICT_800X600,txt_arr)
             write_file_from_list(D3TXT_URL,txt_arr)
         elif choose==2:
-            txt_arr=process_d3_txt(DICT_1920X1080,txt_arr)
+            txt_arr=process_d3_txt(DICT_1024X768,txt_arr)
             write_file_from_list(D3TXT_URL,txt_arr)
         elif choose==3:
+            txt_arr=process_d3_txt(DICT_1920X1080,txt_arr)
+            write_file_from_list(D3TXT_URL,txt_arr)
+        elif choose==4:
             for i in range(0,len(txt_arr)):
                 if txt_arr[i].find('DisplayModeWindowMode')!=-1:
                     txt_arr[i]='DisplayModeWindowMode "'+DICT_WIN_MODE["FS-WINDOWED"]+'"'
             write_file_from_list(D3TXT_URL,txt_arr)
-        elif choose==4:
+        elif choose==5:
             for i in range(0,len(txt_arr)):
                 if txt_arr[i].find('HardwareClass')!=-1:
                     txt_arr[i]='HardwareClass "'+HWCLASS_LOW+'"'
             write_file_from_list(D3TXT_URL,txt_arr)
-        elif choose==5:
+        elif choose==6:
             for i in range(0,len(txt_arr)):
                 if txt_arr[i].find('HardwareClass')!=-1:
                     txt_arr[i]='HardwareClass "'+HWCLASS_HIGH+'"'

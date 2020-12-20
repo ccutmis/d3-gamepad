@@ -62,6 +62,11 @@ if __name__ == "__main__":
         thread = GamepadThread(handler)                 # initialize controller thread
         while 1:
             if handler.global_var.keys_stat_last[2]==True and handler.global_var.keys_stat_last[11]==True and handler.global_var.keys_stat_last[11]==True:
+                #按下LEFT_SHOULDER+RIGHT_SHOULDER+X 強制結束程式，結束前要先把已經按下的key全都release
+                for i in range(0,len(handler.global_var.keys_stat_last)):
+                    if handler.global_var.keys_stat_last[i]==True: #目前是按下狀態
+                        #取得value
+                        handler.kb_release_eval_key(KEY_CONFIG[BTN2_DICT[i]])
                 sys.exit()
             if msvcrt.kbhit() and msvcrt.getch() == chr(8).encode():
                 sys.exit()
