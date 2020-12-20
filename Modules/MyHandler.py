@@ -19,7 +19,6 @@ class MyHandler(EventHandler):
                             if key_val not in self.global_var.onoff_list:
                                 self.global_var.onoff_list.append(key_val)
                                 self.kb_press_eval_key(key_val)
-                                sleep(0.1)
                                 self.kb_release_eval_key(key_val)
                         if key_val not in ["LM","RM"]:
                             if len(key_val)==1:
@@ -36,7 +35,6 @@ class MyHandler(EventHandler):
                 else:
                     if self.global_var.key_onoff_mode[event.button]==1 and self.global_var.btn2_dict[x] in self.global_var.onoff_list:
                         self.kb_press_eval_key(key_val)
-                        sleep(0.1)
                         self.kb_release_eval_key(key_val)
                     if self.global_var.keys_stat_last[x]==True: #先前已按目前沒按
                         if key_val not in ["LM","RM"]:
