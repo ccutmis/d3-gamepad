@@ -91,7 +91,7 @@ class MyHandler(EventHandler):
             scroll_val=int(round(40 * event.value, 0))
             key_val=self.global_var.key_config["LEFT_TRIGER"]
             if key_val!="": #不是空白才繼續動作
-                if self.global_var.triger_stat[0]==0:
+                if self.global_var.triger_stat[0]==0 and scroll_val!=0:
                     if key_val not in ["LM","RM"]:
                         if len(key_val)==1:
                             keyboard.press(key_val)
@@ -104,7 +104,7 @@ class MyHandler(EventHandler):
                         else:
                             Mouse.click("right",cx,cy)
                     self.global_var.triger_stat[0]=1
-                elif scroll_val==0:
+                else:
                     if key_val not in ["LM","RM"]:
                         if len(key_val)==1:
                             keyboard.release(key_val)
@@ -122,7 +122,7 @@ class MyHandler(EventHandler):
             scroll_val=int(round(40 * event.value, 0))
             key_val=self.global_var.key_config["RIGHT_TRIGER"]
             if key_val!="": #不是空白才繼續動作
-                if self.global_var.triger_stat[1]==0:
+                if self.global_var.triger_stat[1]==0 and scroll_val!=0:
                     if key_val not in ["LM","RM"]:
                         if len(key_val)==1:
                             keyboard.press(key_val)
@@ -135,7 +135,7 @@ class MyHandler(EventHandler):
                         else:
                             Mouse.click("right",cx,cy)
                     self.global_var.triger_stat[1]=1
-                elif scroll_val==0:
+                else:
                     if key_val not in ["LM","RM"]:
                         if len(key_val)==1:
                             keyboard.release(key_val)

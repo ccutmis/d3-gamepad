@@ -1,7 +1,7 @@
 # 需安裝的套件 pypiwin32 pynput==1.6.8
 # 版本更新項目 追加ABXY自動連按設定(xinput.ini)及功能實作(xpad.py)
 
-VERSION="0003C"
+VERSION="0003C-Hotfix"
 
 import time
 from Modules.XInput import *
@@ -74,19 +74,19 @@ if __name__ == "__main__":
             if ACTIVE_WIN_TITLE in w.active_window_title():
                 handler.global_var.in_active_win=True
                 handler.global_var.win_pos_size=w.get_window_pos_size() #[x,y,w,h]
-                time.sleep(DELAY_SECOND)
+                #time.sleep(DELAY_SECOND)
                 handler.global_var.x_center=int(handler.global_var.win_pos_size[0]+(handler.global_var.win_pos_size[2]/2))
                 handler.global_var.y_center=int(handler.global_var.win_pos_size[1]+(handler.global_var.win_pos_size[3]/2)+(Y_CENTER_OFFSET))
                 if handler.global_var.stick_stat[0]==2:
-                    if handler.global_var.xy_offset_bonus<20: handler.global_var.xy_offset_bonus+=0.5
+                    if handler.global_var.xy_offset_bonus<10: handler.global_var.xy_offset_bonus+=0.01
                     xx,yy=handler.deg_to_xy(handler.global_var.deg_dict,handler.global_var.stick_degree[0])
                     Mouse.set_pos(handler.global_var.x_center+xx*handler.global_var.xy_offset_unit*2,handler.global_var.y_center+yy*handler.global_var.xy_offset_unit*2)
                     if SET_LEFT_CONTROLLER_MOVE_AND_CLICK==True:
                         handler.kb_press_eval_key(LEFT_CONTROLLER_CLICK_VAL)
-                        time.sleep(DELAY_SECOND)
+                        #time.sleep(DELAY_SECOND)
                         handler.kb_release_eval_key(LEFT_CONTROLLER_CLICK_VAL)
                 elif handler.global_var.stick_stat[1]==2:
-                    if handler.global_var.xy_offset_bonus<20: handler.global_var.xy_offset_bonus+=0.5
+                    if handler.global_var.xy_offset_bonus<10: handler.global_var.xy_offset_bonus+=0.01
                     xx,yy=handler.deg_to_xy(handler.global_var.deg_dict,handler.global_var.stick_degree[1])
                     xx,yy=int(xx*handler.global_var.xy_offset_bonus),int(yy*handler.global_var.xy_offset_bonus)
                     Mouse.move_to(xx,yy)
@@ -95,7 +95,6 @@ if __name__ == "__main__":
                 if len(handler.global_var.onoff_list)>0:
                     for i in handler.global_var.onoff_list:
                         handler.kb_press_eval_key(i)
-                        time.sleep(DELAY_SECOND)
                         handler.kb_release_eval_key(i)
             else:
                 handler.global_var.in_active_win=False
