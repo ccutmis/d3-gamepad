@@ -11,7 +11,7 @@ from pynput.keyboard import Key, Controller
 from datetime import datetime
 from Modules.WindowMgr import *
 from traceback import extract_tb
-from sys import argv,exc_info
+from sys import argv,exc_info,exit
 from msvcrt import kbhit,getch
 
 if __name__ == "__main__":
