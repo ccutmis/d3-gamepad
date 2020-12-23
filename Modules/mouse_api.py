@@ -1,6 +1,5 @@
 # see http://msdn.microsoft.com/en-us/library/ms646260(VS.85).aspx for details
 import ctypes
-import time # opcional
 
 MOUSE_LEFT_DOWN=0x0002
 MOUSE_LEFT_UP=0x0004
@@ -19,7 +18,6 @@ def move_to(offx=0,offy=0):
     cx,cy=get_pos()
     set_pos(cx+offx,cy+offy)
     return cx+offx,cy+offy
-        
 
 def set_pos(x, y):
     ctypes.windll.user32.SetCursorPos(x, y)
@@ -35,12 +33,10 @@ def click(flag,x,y,updown=1):
             ctypes.windll.user32.mouse_event(MOUSE_RIGHT_DOWN, x, y, 0,0) # left down
         else:
             ctypes.windll.user32.mouse_event(MOUSE_RIGHT_UP, x, y, 0,0) # left up
-
-
-def rodar():
-    for i in range(0,500,10):
-        set_pos(i,i)
-        time.sleep(0.01)
+#def rodar():
+#    for i in range(0,500,10):
+#        set_pos(i,i)
+#        time.sleep(0.01)
 
 #if __name__ == "__main__":
 #    input('press enter to start testing...')

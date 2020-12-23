@@ -1,5 +1,5 @@
-from pynput.keyboard import Key, Controller
-import math
+from pynput.keyboard import Key
+from math import pi,sin,cos
 
 class IniVariable:
     def __init__ (self):
@@ -37,11 +37,11 @@ class IniVariable:
         #divisions,radius=360,10
         out_dict={}
         # the difference between angles in radians -- don't bother with degrees
-        angle = 2 * math.pi / divisions
+        angle = 2 * pi / divisions
         # a list of all angles using a list comprehension
         angles = [i*angle for i in range(divisions)]
         oi=0
         for a in angles:
-            out_dict[oi]=[int(radius*math.sin(a)),(int(radius*math.cos(a)))]
+            out_dict[oi]=[int(radius*sin(a)),(int(radius*cos(a)))]
             oi+=1
         return out_dict

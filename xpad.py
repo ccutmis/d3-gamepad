@@ -1,21 +1,24 @@
 # 需安裝的套件 pypiwin32 pynput==1.6.8
-# 版本更新項目 追加ABXY自動連按設定(xinput.ini)及功能實作(xpad.py)
+# 03版本更新項目 追加ABXY自動連按設定(xinput.ini)及功能實作(xpad.py)
+# 05C版本更新項目: 優化效能 把import模組 改為 from...import模組
+# 待辦: 自動連按設定改為只能設ABXY 檢討LR MOUSE有時會自動連按的問題,搖桿在角度為0,90,180,270時卡卡的問題
+VERSION="0005C"
 
-VERSION="0003C-Hotfix"
-
-import time
-from Modules.XInput import *
+from time import sleep
+from Modules.XInput import DEADZONE_TRIGGER,set_deadzone,get_connected
 import Modules.mouse_api as Mouse
 from pynput.keyboard import Key, Controller
 from datetime import datetime
 from Modules.WindowMgr import *
-import traceback,sys,msvcrt
+from traceback import extract_tb
+from sys import argv,exc_info
+from msvcrt import kbhit,getch
 
 if __name__ == "__main__":
     try:
         ini_filename="xinput.ini"
-        if len(sys.argv)>1 and sys.argv[1]!="" and (sys.argv[1]).split(".")[1]=="ini":
-            ini_filename=sys.argv[1]
+        if len(argv)>1 and argv[1]!="" and (argv[1]).split(".")[1]=="ini":
+            ini_filename=argv[1]
         #讀取 xinput.ini參數
         with open(ini_filename,"r",encoding="utf-8") as f:
             tmp_content=f.read()
@@ -28,12 +31,12 @@ if __name__ == "__main__":
         if(controller1[0]==True):
             print("-------------------------------")
             print("偵測到控制器 在此視窗中按下 [←Backspace] 可關閉程式")
-            print("或同時按住控制器:(LEFT_SHOULDER)+(RIGHT_SHOULDER)+(X)關閉程式")
+            print("或在遊戲中同時按住控制器:\n(LEFT_SHOULDER)+(RIGHT_SHOULDER)+(X)持續一秒關閉程式")
             print("程式版本:"+VERSION+"\t監控視窗:"+ACTIVE_WIN_TITLE)
             print("-------------------------------")
         else:
             print("未偵測到控制器，程式結束。")
-            sys.exit()
+            exit(0)
         w=WindowMgr()
         #全域變數區.START
         from Modules.IniVariable import *
@@ -61,20 +64,20 @@ if __name__ == "__main__":
         handler = MyHandler(0,global_var_obj=global_var) # initialize handler object
         thread = GamepadThread(handler)                 # initialize controller thread
         while 1:
-            if handler.global_var.keys_stat_last[2]==True and handler.global_var.keys_stat_last[11]==True and handler.global_var.keys_stat_last[11]==True:
+            if handler.global_var.keys_stat_last[2]==True and handler.global_var.keys_stat_last[10]==True and handler.global_var.keys_stat_last[11]==True:
                 #按下LEFT_SHOULDER+RIGHT_SHOULDER+X 強制結束程式，結束前要先把已經按下的key全都release
                 for i in range(0,len(handler.global_var.keys_stat_last)):
                     if handler.global_var.keys_stat_last[i]==True: #目前是按下狀態
                         #取得value
                         handler.kb_release_eval_key(KEY_CONFIG[BTN2_DICT[i]])
-                sys.exit()
-            if msvcrt.kbhit() and msvcrt.getch() == chr(8).encode():
-                sys.exit()
+                exit(0)
+            if kbhit() and getch() == chr(8).encode():
+                exit(0)
             #判斷當前視窗完整標題文字是否包含 ACTIVE_WIN_TITLE 設定之文字，若是才繼續後續處理...
             if ACTIVE_WIN_TITLE in w.active_window_title():
                 handler.global_var.in_active_win=True
                 handler.global_var.win_pos_size=w.get_window_pos_size() #[x,y,w,h]
-                #time.sleep(DELAY_SECOND)
+                #sleep(DELAY_SECOND)
                 handler.global_var.x_center=int(handler.global_var.win_pos_size[0]+(handler.global_var.win_pos_size[2]/2))
                 handler.global_var.y_center=int(handler.global_var.win_pos_size[1]+(handler.global_var.win_pos_size[3]/2)+(Y_CENTER_OFFSET))
                 if handler.global_var.stick_stat[0]==2:
@@ -83,7 +86,7 @@ if __name__ == "__main__":
                     Mouse.set_pos(handler.global_var.x_center+xx*handler.global_var.xy_offset_unit*2,handler.global_var.y_center+yy*handler.global_var.xy_offset_unit*2)
                     if SET_LEFT_CONTROLLER_MOVE_AND_CLICK==True:
                         handler.kb_press_eval_key(LEFT_CONTROLLER_CLICK_VAL)
-                        #time.sleep(DELAY_SECOND)
+                        #sleep(DELAY_SECOND)
                         handler.kb_release_eval_key(LEFT_CONTROLLER_CLICK_VAL)
                 elif handler.global_var.stick_stat[1]==2:
                     if handler.global_var.xy_offset_bonus<10: handler.global_var.xy_offset_bonus+=0.01
@@ -98,13 +101,13 @@ if __name__ == "__main__":
                         handler.kb_release_eval_key(i)
             else:
                 handler.global_var.in_active_win=False
-            time.sleep(DELAY_SECOND)
+            sleep(DELAY_SECOND)
             #print(handler.global_var.onoff_list)
     except Exception as e:
         error_class = e.__class__.__name__ #取得錯誤類型
         detail = e.args[0] #取得詳細內容
-        cl, exc, tb = sys.exc_info() #取得Call Stack
-        lastCallStack = traceback.extract_tb(tb)[-1] #取得Call Stack的最後一筆資料
+        cl, exc, tb = exc_info() #取得Call Stack
+        lastCallStack = extract_tb(tb)[-1] #取得Call Stack的最後一筆資料
         fileName = lastCallStack[0] #取得發生的檔案名稱
         lineNum = lastCallStack[1] #取得發生的行號
         funcName = lastCallStack[2] #取得發生的函數名稱
@@ -112,4 +115,4 @@ if __name__ == "__main__":
         with open('runtime_error.log','a+',encoding='utf-8') as f:
             f.writelines(datetime.now().strftime("%Y-%m-%d %H:%M:%S")+'\t'+errMsg+'\n')
         print(errMsg)
-        sys.exit()
+        exit(0)
