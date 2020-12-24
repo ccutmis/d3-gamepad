@@ -1,3 +1,5 @@
+[![watching-on-youtube](watching-on-youtube.png)](https://www.youtube.com/watch?v=cF4athGTqXw)
+
 # D3-XPAD
 
 ### 更新日期: 2020-12-24 00:30:00 ver.0005C

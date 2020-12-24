@@ -1,5 +1,5 @@
-import os,re,sys
-
+import os,sys
+from re import findall,search
 """ 逐行讀取文字檔並傳回陣列 """
 def read_file_into_list(file_loc,write_mode="r",encode_set="utf-8",split_char="\n"):
     tmp_list=open(file_loc,write_mode,encoding=encode_set).read().split(split_char)
@@ -34,7 +34,7 @@ def read_d3_txt(d3_txt_url):
 def process_d3_txt(tmp_dict,tmp_arr):
     tmp_list=[i for i in tmp_dict.keys()]
     for i in range(0,len(tmp_arr)):
-        tmp_str=re.findall("(^[^ ]+) ",tmp_arr[i])[0] if tmp_arr[i]!="" else ""
+        tmp_str=findall("(^[^ ]+) ",tmp_arr[i])[0] if tmp_arr[i]!="" else ""
         if tmp_str!="" and tmp_str in tmp_list:
             tmp_arr[i]=tmp_str+' "'+tmp_dict[tmp_str]+'"'
     return tmp_arr
@@ -49,14 +49,25 @@ if __name__=="__main__":
     exec(tmp_content)
     D3TXT_DIR=os.path.expanduser("~\\Documents\\Diablo III\\")
     D3TXT_URL=D3TXT_DIR+"D3Prefs.txt"
-
+    SEL_LIST=[[1,"設為800x600視窗模式"],
+    [2,"設為1024x768視窗模式"],
+    [3,"設為1920x1080視窗模式"],
+    [4,"設為全螢幕視窗模式"],
+    [5,"降低硬件級數為2"],
+    [6,"提高硬件級數為5"],
+    [7,"離開程式"]]
     txt_arr=read_file_into_list(D3TXT_URL)
     write_file_from_list(D3TXT_URL.replace(".txt","_BACKUP.txt"),txt_arr)
     print(get_file_fullname(D3TXT_URL)+" 已備份為"+get_file_fullname(D3TXT_URL.replace(".txt","_BACKUP.txt"))+"\n-----------------------------------------------")
     print("D3Prefs.txt 設定快速切換器")
+    choose=-1
     while 1:
-        choose=((lambda x:int(x) if re.search("^[0-9]+$",x)!=None else "Not Number!")
-        (input("請輸入選項:(1-7) \n1)設為800x600視窗模式\n2)設為1024x768視窗模式\n3)設為1920x1080視窗模式\n4)設為全螢幕視窗模式\n5)降低硬件級數為2\n6)提高硬件級數為5\n7)離開程式\n "))) 
+        if choose!=-1 and choose!="Not Number!":
+            print("完成:",SEL_LIST[choose-1])
+        else:
+            print("輸入錯誤請重試")
+        choose=((lambda x:int(x) if search("^[0-9]+$",x)!=None else "Not Number!")
+        (input("請輸入選項:(1-7) \n1)設為800x600視窗模式\n2)設為1024x768視窗模式\n3)設為1920x1080視窗模式\n4)設為全螢幕視窗模式\n5)降低硬件級數為2\n6)提高硬件級數為5\n7)離開程式\n ")))
         if choose==7:
             exit(0)
         elif choose==1:
@@ -85,4 +96,5 @@ if __name__=="__main__":
             write_file_from_list(D3TXT_URL,txt_arr)
         else:
             print("INPUT ERROR!!! PLEASE RETRY")
-        print(choose)
+        #print(choose)
+        os.system('cls')
