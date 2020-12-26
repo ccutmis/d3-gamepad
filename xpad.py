@@ -1,8 +1,7 @@
 # 需安裝的套件 pypiwin32 pynput==1.6.8
-# 03版本更新項目 追加ABXY自動連按設定(xinput.ini)及功能實作(xpad.py)
-# 05C版本更新項目: 優化效能 把import模組 改為 from...import模組
 # 待辦: 自動連按設定改為只能設ABXY 檢討LR MOUSE有時會自動連按的問題,搖桿在角度為0,90,180,270時卡卡的問題
-VERSION="0005C"
+# 已完成: 優化定時偵測機制(控制滑鼠移動與ONOFF自動施法加上間隔，避免過度連點地面可能造成的遊戲崩潰。
+VERSION="0006C"
 
 from time import sleep
 from Modules.XInput import DEADZONE_TRIGGER,set_deadzone,get_connected
@@ -59,11 +58,14 @@ if __name__ == "__main__":
         global_var.keys_stat_last=[False,False,False,False,False,False,False,False,False,False,False,False,False,False]
         global_var.current_onoff=[0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         global_var.in_active_win=False
+        global_var.elapsed_time=0
         #全域變數區.END
         from Modules.MyHandler import *
         handler = MyHandler(0,global_var_obj=global_var) # initialize handler object
         thread = GamepadThread(handler)                 # initialize controller thread
         while 1:
+            global_var.elapsed_time+=1
+            #print(global_var.elapsed_time)
             if handler.global_var.keys_stat_last[2]==True and handler.global_var.keys_stat_last[10]==True and handler.global_var.keys_stat_last[11]==True:
                 #按下LEFT_SHOULDER+RIGHT_SHOULDER+X 強制結束程式，結束前要先把已經按下的key全都release
                 for i in range(0,len(handler.global_var.keys_stat_last)):
@@ -77,28 +79,29 @@ if __name__ == "__main__":
             if ACTIVE_WIN_TITLE in w.active_window_title():
                 handler.global_var.in_active_win=True
                 handler.global_var.win_pos_size=w.get_window_pos_size() #[x,y,w,h]
-                #sleep(DELAY_SECOND)
                 handler.global_var.x_center=int(handler.global_var.win_pos_size[0]+(handler.global_var.win_pos_size[2]/2))
                 handler.global_var.y_center=int(handler.global_var.win_pos_size[1]+(handler.global_var.win_pos_size[3]/2)+(Y_CENTER_OFFSET))
-                if handler.global_var.stick_stat[0]==2:
-                    if handler.global_var.xy_offset_bonus<10: handler.global_var.xy_offset_bonus+=0.01
-                    xx,yy=handler.deg_to_xy(handler.global_var.deg_dict,handler.global_var.stick_degree[0])
-                    Mouse.set_pos(handler.global_var.x_center+xx*handler.global_var.xy_offset_unit*2,handler.global_var.y_center+yy*handler.global_var.xy_offset_unit*2)
-                    if SET_LEFT_CONTROLLER_MOVE_AND_CLICK==True:
-                        handler.kb_press_eval_key(LEFT_CONTROLLER_CLICK_VAL)
-                        #sleep(DELAY_SECOND)
-                        handler.kb_release_eval_key(LEFT_CONTROLLER_CLICK_VAL)
-                elif handler.global_var.stick_stat[1]==2:
-                    if handler.global_var.xy_offset_bonus<10: handler.global_var.xy_offset_bonus+=0.01
-                    xx,yy=handler.deg_to_xy(handler.global_var.deg_dict,handler.global_var.stick_degree[1])
-                    xx,yy=int(xx*handler.global_var.xy_offset_bonus),int(yy*handler.global_var.xy_offset_bonus)
-                    Mouse.move_to(xx,yy)
-                else:
-                    handler.global_var.xy_offset_bonus=0
+                if global_var.elapsed_time%int(DELAY_SECOND*40)==0:
+                    #print('MOD10:',global_var.elapsed_time)
+                    if handler.global_var.stick_stat[0]==2: #左小搖桿
+                        xx,yy=handler.deg_to_xy(handler.global_var.deg_dict,handler.global_var.stick_degree[0])
+                        Mouse.set_pos(handler.global_var.x_center+xx*handler.global_var.xy_offset_unit,handler.global_var.y_center+yy*handler.global_var.xy_offset_unit)
+                        if SET_LEFT_CONTROLLER_MOVE_AND_CLICK==True:
+                            handler.kb_press_eval_key(LEFT_CONTROLLER_CLICK_VAL)
+                            handler.kb_release_eval_key(LEFT_CONTROLLER_CLICK_VAL)
+                    elif handler.global_var.stick_stat[1]==2: #右小搖桿
+                        if handler.global_var.xy_offset_bonus<10: handler.global_var.xy_offset_bonus+=0.01
+                        xx,yy=handler.deg_to_xy(handler.global_var.deg_dict,handler.global_var.stick_degree[1])
+                        xx,yy=int(xx+handler.global_var.xy_offset_bonus),int(yy+handler.global_var.xy_offset_bonus)
+                        Mouse.move_to(xx,yy)
+                    else:
+                        handler.global_var.xy_offset_bonus=0
                 if len(handler.global_var.onoff_list)>0:
-                    for i in handler.global_var.onoff_list:
-                        handler.kb_press_eval_key(i)
-                        handler.kb_release_eval_key(i)
+                    if global_var.elapsed_time%int(DELAY_SECOND*23)==0:
+                        #print("ONOFF",global_var.elapsed_time)
+                        for i in handler.global_var.onoff_list:
+                            handler.kb_press_eval_key(i)
+                            handler.kb_release_eval_key(i)
             else:
                 handler.global_var.in_active_win=False
             sleep(DELAY_SECOND)
