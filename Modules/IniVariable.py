@@ -33,6 +33,7 @@ class IniVariable:
         self.current_onoff = None
         self.in_active_win = None
         self.elapsed_time = None
+        self.stick_info=[None,None]
 
     def gent_degree_dict(self,divisions=360,radius=10):
         #divisions,radius=360,10

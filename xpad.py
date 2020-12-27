@@ -1,5 +1,5 @@
 # 需安裝的套件 pypiwin32 pynput==1.6.8
-# 待辦: 自動連按設定改為只能設ABXY 檢討LR MOUSE有時會自動連按的問題,搖桿在角度為0,90,180,270時卡卡的問題
+# 已修正: 搖桿在角度為0,90,180,270時卡卡的問題
 
 VERSION="0006C"
 
@@ -12,6 +12,7 @@ from Modules.WindowMgr import *
 from traceback import extract_tb
 from sys import argv,exc_info,exit
 from msvcrt import kbhit,getch
+from math import pi,sin,cos,atan2
 
 if __name__ == "__main__":
     try:
@@ -59,6 +60,7 @@ if __name__ == "__main__":
         global_var.current_onoff=[0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         global_var.in_active_win=False
         global_var.elapsed_time=0
+        global_var.stick_info=[{},{}]
         #全域變數區.END
         from Modules.MyHandler import *
         handler = MyHandler(0,global_var_obj=global_var) # initialize handler object
@@ -81,27 +83,43 @@ if __name__ == "__main__":
                 handler.global_var.win_pos_size=w.get_window_pos_size() #[x,y,w,h]
                 handler.global_var.x_center=int(handler.global_var.win_pos_size[0]+(handler.global_var.win_pos_size[2]/2))
                 handler.global_var.y_center=int(handler.global_var.win_pos_size[1]+(handler.global_var.win_pos_size[3]/2)+(Y_CENTER_OFFSET))
-                if global_var.elapsed_time%int(DELAY_SECOND*40)==0:
-                    #print('MOD10:',global_var.elapsed_time)
-                    if handler.global_var.stick_stat[0]==2: #左小搖桿
-                        xx,yy=handler.deg_to_xy(handler.global_var.deg_dict,handler.global_var.stick_degree[0])
-                        Mouse.set_pos(handler.global_var.x_center+xx*handler.global_var.xy_offset_unit,handler.global_var.y_center+yy*handler.global_var.xy_offset_unit)
-                        if SET_LEFT_CONTROLLER_MOVE_AND_CLICK==True:
-                            handler.kb_press_eval_key(LEFT_CONTROLLER_CLICK_VAL)
-                            handler.kb_release_eval_key(LEFT_CONTROLLER_CLICK_VAL)
-                    elif handler.global_var.stick_stat[1]==2: #右小搖桿
-                        if handler.global_var.xy_offset_bonus<10: handler.global_var.xy_offset_bonus+=0.01
-                        xx,yy=handler.deg_to_xy(handler.global_var.deg_dict,handler.global_var.stick_degree[1])
-                        xx,yy=int(xx+handler.global_var.xy_offset_bonus),int(yy+handler.global_var.xy_offset_bonus)
-                        Mouse.move_to(xx,yy)
-                    else:
-                        handler.global_var.xy_offset_bonus=0
-                if len(handler.global_var.onoff_list)>0:
-                    if global_var.elapsed_time%int(DELAY_SECOND*23)==0:
-                        #print("ONOFF",global_var.elapsed_time)
-                        for i in handler.global_var.onoff_list:
-                            handler.kb_press_eval_key(i)
-                            handler.kb_release_eval_key(i)
+                #print("LEFT STICK:",handler.global_var.stick_info[0])
+                if handler.global_var.stick_info[0]["val"]!=0: #左小搖桿
+                    deg=int(atan2(handler.global_var.stick_info[0]["x"],handler.global_var.stick_info[0]["y"])/pi*180)
+                    if deg<0: deg=180+(180+deg)
+                    handler.global_var.stick_degree[0]=deg
+                    xx,yy=handler.deg_to_xy(handler.global_var.deg_dict,deg)
+                    Mouse.set_pos(handler.global_var.x_center+xx*handler.global_var.xy_offset_unit*2,handler.global_var.y_center+yy*handler.global_var.xy_offset_unit*2)
+                    if SET_LEFT_CONTROLLER_MOVE_AND_CLICK==True:
+                        handler.kb_press_eval_key(LEFT_CONTROLLER_CLICK_VAL)
+                        handler.kb_release_eval_key(LEFT_CONTROLLER_CLICK_VAL)
+                    #print("LEFT STICK:",xx,yy)
+                else:
+                    pass
+                    #print("LEFT STICK REST")
+                #print("RIGT STICK:",handler.global_var.stick_info[1])
+                if handler.global_var.stick_info[1]["val"]!=0: #右小搖桿
+                    if handler.global_var.xy_offset_bonus<50: handler.global_var.xy_offset_bonus+=1
+                    #print("RIGT STICK:",handler.global_var.stick_info[1]["x"],handler.global_var.stick_info[1]["y"])
+                    deg=int(atan2(handler.global_var.stick_info[1]["x"],handler.global_var.stick_info[1]["y"])/pi*180)
+                    if deg<0: deg=180+(180+deg)
+                    handler.global_var.stick_degree[1]=deg
+                    #tmp_bonus=int(XY_OFFSET_UNIT*handler.global_var.xy_offset_bonus)
+                    tmp_bonus=20
+                    xx,yy=handler.deg_to_xy(handler.global_var.deg_dict,deg)
+                    xx=int(xx+handler.global_var.xy_offset_bonus) if xx>=0 else int(xx-handler.global_var.xy_offset_bonus)
+                    yy=int(yy+handler.global_var.xy_offset_bonus) if yy>=0 else int(yy-handler.global_var.xy_offset_bonus)
+                    Mouse.move_to(xx,yy) #移動滑鼠
+                    #print("RIGT STICK:",xx,yy)
+                else:
+                    handler.global_var.xy_offset_bonus=0
+                    #print("RIGT STICK REST")
+
+                if len(handler.global_var.onoff_list)>0 and global_var.elapsed_time%int(DELAY_SECOND*23)==0:
+                    #print("ONOFF",global_var.elapsed_time)
+                    for i in handler.global_var.onoff_list:
+                        handler.kb_press_eval_key(i)
+                        handler.kb_release_eval_key(i)
             else:
                 handler.global_var.in_active_win=False
             sleep(DELAY_SECOND)

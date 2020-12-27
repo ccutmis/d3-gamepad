@@ -54,38 +54,11 @@ class MyHandler(EventHandler):
                 self.global_var.onoff_list=[]
 
     def process_stick_event(self, event):
-        if self.global_var.in_active_win==True:
-            if event.stick == LEFT:
-                if self.global_var.stick_stat[0]==0 and (abs(event.x)!=0 or abs(event.y)!=0):
-                    self.global_var.stick_stat[0]=1
-                elif abs(event.x)==0 and abs(event.y)==0:
-                    self.global_var.stick_stat[0]=0
-                else:
-                    self.global_var.stick_stat[0]=2
-                if self.global_var.stick_stat[0]==2:
-                    #移動滑鼠
-                    deg=int(atan2(event.x,event.y)/pi*180)
-                    if deg<0: deg=180+(180+deg)
-                    self.global_var.stick_degree[0]=deg
-                    xx,yy=self.deg_to_xy(self.global_var.deg_dict,deg)
-                    Mouse.set_pos(self.global_var.x_center+xx*self.global_var.xy_offset_unit*2,self.global_var.y_center+yy*self.global_var.xy_offset_unit*2)
-                    if self.global_var.set_left_controller_move_and_click==True:
-                        self.kb_press_eval_key(self.global_var.left_controller_click_val)
-                        self.kb_release_eval_key(self.global_var.left_controller_click_val)
-            elif event.stick == RIGHT:
-                if self.global_var.stick_stat[1]==0 and (abs(event.x)!=0 or abs(event.y)!=0):
-                    self.global_var.stick_stat[1]=1
-                elif abs(event.x)==0 and abs(event.y)==0:
-                    self.global_var.stick_stat[1]=0
-                else:
-                    self.global_var.stick_stat[1]=2
-                if self.global_var.stick_stat[1]==2:
-                    #移動滑鼠
-                    deg=int(atan2(event.x,event.y)/pi*180)
-                    if deg<0: deg=180+(180+deg)
-                    self.global_var.stick_degree[1]=deg
-                    xx,yy=self.deg_to_xy(self.global_var.deg_dict,deg)
-                    Mouse.move_to(xx,yy)
+        #print(event)
+        if event.stick == LEFT:
+            self.global_var.stick_info[0]={"x":event.x,"y":event.y,"val":event.value}
+        else:
+            self.global_var.stick_info[1]={"x":event.x,"y":event.y,"val":event.value}
 
     def process_trigger_event(self, event):
         if self.global_var.in_active_win==True:
