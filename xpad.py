@@ -1,7 +1,7 @@
 # 需安裝的套件 pypiwin32 pynput==1.6.8
-# 已修正: 搖桿在角度為0,90,180,270時卡卡的問題
+# 0007C完成: 重寫左右stick控制滑鼠移動的部份，右stick在長按時會有小加速的效果
 
-VERSION="0006C"
+VERSION="0007C"
 
 from time import sleep
 from Modules.XInput import DEADZONE_TRIGGER,set_deadzone,get_connected
@@ -25,12 +25,12 @@ if __name__ == "__main__":
         f.close()
         exec(tmp_content)
 
-        set_deadzone(DEADZONE_TRIGGER,10)
+        set_deadzone(DEADZONE_TRIGGER,int(XY_OFFSET_UNIT))
         
         controller1=get_connected()
         if(controller1[0]==True):
             print("-------------------------------")
-            print("偵測到控制器 在此視窗中按下 [←Backspace] 可關閉程式")
+            print("D3-Gamepad程式運作中 在此視窗中按下 [←Backspace] 可關閉程式")
             print("或在遊戲中同時按住控制器:\n(LEFT_SHOULDER)+(RIGHT_SHOULDER)+(X)持續一秒關閉程式")
             print("程式版本:"+VERSION+"\t監控視窗:"+ACTIVE_WIN_TITLE)
             print("-------------------------------")
@@ -100,17 +100,14 @@ if __name__ == "__main__":
                 #print("RIGT STICK:",handler.global_var.stick_info[1])
                 if handler.global_var.stick_info[1]["val"]!=0: #右小搖桿
                     if handler.global_var.xy_offset_bonus<50: handler.global_var.xy_offset_bonus+=1
-                    #print("RIGT STICK:",handler.global_var.stick_info[1]["x"],handler.global_var.stick_info[1]["y"])
-                    deg=int(atan2(handler.global_var.stick_info[1]["x"],handler.global_var.stick_info[1]["y"])/pi*180)
-                    if deg<0: deg=180+(180+deg)
-                    handler.global_var.stick_degree[1]=deg
-                    #tmp_bonus=int(XY_OFFSET_UNIT*handler.global_var.xy_offset_bonus)
-                    tmp_bonus=20
-                    xx,yy=handler.deg_to_xy(handler.global_var.deg_dict,deg)
-                    xx=int(xx+handler.global_var.xy_offset_bonus) if xx>=0 else int(xx-handler.global_var.xy_offset_bonus)
-                    yy=int(yy+handler.global_var.xy_offset_bonus) if yy>=0 else int(yy-handler.global_var.xy_offset_bonus)
+                    xx=round((handler.global_var.stick_info[1]["dir"][0])*XY_OFFSET_UNIT)
+                    yy=-(round((handler.global_var.stick_info[1]["dir"][1])*XY_OFFSET_UNIT))
+                    #print(xx,yy)
+                    if xx!=0:
+                        xx=int(xx+handler.global_var.xy_offset_bonus) if xx>0 else int(xx-handler.global_var.xy_offset_bonus)
+                    if yy!=0:
+                        yy=int(yy+handler.global_var.xy_offset_bonus) if yy>0 else int(yy-handler.global_var.xy_offset_bonus)
                     Mouse.move_to(xx,yy) #移動滑鼠
-                    #print("RIGT STICK:",xx,yy)
                 else:
                     handler.global_var.xy_offset_bonus=0
                     #print("RIGT STICK REST")

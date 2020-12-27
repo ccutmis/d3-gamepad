@@ -2,7 +2,7 @@
 
 # D3-XPAD
 
-### 更新日期: 2020-12-26 14:00:00 ver.0006C
+### 更新日期: 2020-12-27 22:00:00 ver.0007C
 
 -----
 
@@ -30,7 +30,7 @@
 
 D3-XPAD下載點:
 
-[XPAD-0006C.zip](XPAD-0006C.zip)
+[XPAD-0007C.zip](XPAD-0007C.zip)
 
 下載並解壓縮會得到一個 dist 資料夾，裡面有二個檔案:
 
@@ -93,7 +93,7 @@ LEFT_CONTROLLER_CLICK_VAL = "LM"
 XY_OFFSET_UNIT=8
 
 #延時設定(基本上勿動)
-DELAY_SECOND=0.05
+DELAY_SECOND=0.1
 
 #Y軸中心點修正(基本上勿動)
 Y_CENTER_OFFSET=-(XY_OFFSET_UNIT*7)
@@ -103,7 +103,6 @@ BTN_DICT={ "A":0, "B":1, "X":2, "Y":3, "BACK":4, "START":5, "DPAD_UP":6, "DPAD_D
 BTN2_DICT={ 0:"A", 1:"B", 2:"X", 3:"Y", 4:"BACK", 5:"START", 6:"DPAD_UP", 7:"DPAD_DOWN", 8:"DPAD_LEFT", 9:"DPAD_RIGHT", 10:"LEFT_SHOULDER", 11:"RIGHT_SHOULDER", 12:"LEFT_TRIGER", 13:"RIGHT_TRIGER" }
 #是否啟用degug模式(勿動) 預設值為False
 DEBUG_MODE=False
-
 
 ```
 
@@ -144,10 +143,13 @@ DEBUG_MODE=False
 
 ## 6. 更新日誌 :: Log
 
+### 更新日期: 2020-12-27 22:00:00 ver.0007C
+更新內容:
+* 重寫左右stick控制滑鼠移動的部份，右stick在長按時會有小加速的效果
+
 ### 更新日期: 2020-12-26 14:00:00 ver.0006C
 更新內容:
 * 優化定時偵測機制(控制滑鼠移動與ONOFF自動施法加上間隔，避免過度連點地面可能造成的遊戲崩潰。
-* 已修正: 搖桿在角度為0,90,180,270時卡卡的問題
 
 ### 更新日期: 2020-12-24 00:30:00 ver.0005C
 更新內容:

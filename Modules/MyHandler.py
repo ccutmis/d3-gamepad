@@ -56,9 +56,9 @@ class MyHandler(EventHandler):
     def process_stick_event(self, event):
         #print(event)
         if event.stick == LEFT:
-            self.global_var.stick_info[0]={"x":event.x,"y":event.y,"val":event.value}
+            self.global_var.stick_info[0]={"x":event.x,"y":event.y,"val":event.value,"dir":event.dir}
         else:
-            self.global_var.stick_info[1]={"x":event.x,"y":event.y,"val":event.value}
+            self.global_var.stick_info[1]={"x":event.x,"y":event.y,"val":event.value,"dir":event.dir}
 
     def process_trigger_event(self, event):
         if self.global_var.in_active_win==True:
