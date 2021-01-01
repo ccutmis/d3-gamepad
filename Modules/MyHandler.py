@@ -101,7 +101,7 @@ class MyHandler(EventHandler):
         angles = [i*angle for i in range(divisions)]
         oi=0
         for a in angles:
-            out_dict[oi]=[int(radius*sin(a)),(int(radius*cos(a)))]
+            out_dict[oi]=[round(radius*sin(a)),(round(radius*cos(a)))]
             oi+=1
         return out_dict
 

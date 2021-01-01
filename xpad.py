@@ -1,5 +1,5 @@
 # 需安裝的套件 pypiwin32 pynput==1.6.8
-# 0007C完成: 重寫左右stick控制滑鼠移動的部份，右stick在長按時會有小加速的效果
+# 0008C完成: 修正一些小bug
 
 XPAD_VERSION="0008C"
 
@@ -95,7 +95,7 @@ if __name__ == "__main__":
                     if deg<0: deg=180+(180+deg)
                     handler.global_var.stick_degree[0]=deg
                     xx,yy=handler.deg_to_xy(handler.global_var.deg_dict,deg)
-                    Mouse.set_pos(handler.global_var.x_center+xx*handler.global_var.xy_offset_unit*2,handler.global_var.y_center+yy*handler.global_var.xy_offset_unit*2)
+                    Mouse.set_pos(handler.global_var.x_center+xx*handler.global_var.xy_offset_unit,handler.global_var.y_center+yy*handler.global_var.xy_offset_unit)
                     if SET_LEFT_CONTROLLER_MOVE_AND_CLICK==True:
                         handler.kb_press_eval_key(LEFT_CONTROLLER_CLICK_VAL)
                         handler.kb_release_eval_key(LEFT_CONTROLLER_CLICK_VAL)
