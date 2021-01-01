@@ -1,7 +1,7 @@
 # 需安裝的套件 pypiwin32 pynput==1.6.8
 # 0007C完成: 重寫左右stick控制滑鼠移動的部份，右stick在長按時會有小加速的效果
 
-VERSION="0007C"
+XPAD_VERSION="0008C"
 
 from time import sleep
 from Modules.XInput import DEADZONE_TRIGGER,set_deadzone,get_connected
@@ -29,15 +29,21 @@ if __name__ == "__main__":
         
         controller1=get_connected()
         if(controller1[0]==True):
-            print("-------------------------------")
-            print("D3-Gamepad程式運作中 在此視窗中按下 [←Backspace] 可關閉程式")
-            print("或在遊戲中同時按住控制器:\n(LEFT_SHOULDER)+(RIGHT_SHOULDER)+(X)持續一秒關閉程式")
-            print("程式版本:"+VERSION+"\t監控視窗:"+ACTIVE_WIN_TITLE)
+            print("------------------")
+            print("D3-Gamepad程式運作")
+            print("在此視窗中按下 [←Backspace] 可關閉程式")
+            print("或在遊戲中同時按住控制器:")
+            print("LEFT_SHOULDER+RIGHT_SHOULDER+X一秒關閉程式")
+            print("程式版本:"+XPAD_VERSION)
+            print("監控視窗:"+ACTIVE_WIN_TITLE)
             print("-------------------------------")
         else:
             print("未偵測到控制器，程式結束。")
             exit(0)
         w=WindowMgr()
+        w.set_cmd_title("::XPAD::")
+        w.set_window_alpha("::XPAD::",alpha_val=120)
+        w.set_window_on_top("::XPAD::",win_w=350,win_h=180,set_top=True)
         #全域變數區.START
         from Modules.IniVariable import *
         global_var=IniVariable()
