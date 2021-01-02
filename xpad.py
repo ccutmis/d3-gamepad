@@ -84,7 +84,7 @@ if __name__ == "__main__":
             if kbhit() and getch() == chr(8).encode():
                 exit(0)
             #判斷當前視窗完整標題文字是否包含 ACTIVE_WIN_TITLE 設定之文字，若是才繼續後續處理...
-            if ACTIVE_WIN_TITLE in w.active_window_title():
+            if ACTIVE_WIN_TITLE!="" and ACTIVE_WIN_TITLE in w.active_window_title():
                 handler.global_var.in_active_win=True
                 handler.global_var.win_pos_size=w.get_window_pos_size() #[x,y,w,h]
                 handler.global_var.x_center=int(handler.global_var.win_pos_size[0]+(handler.global_var.win_pos_size[2]/2))

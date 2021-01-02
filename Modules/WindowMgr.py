@@ -1,4 +1,4 @@
-WINDOWMGR_VERSION="00001A"
+WINDOWMGR_VERSION="00002A"
 import win32gui, win32com.client, win32con, winxpgui, win32api, ctypes
 from os import system
 from time import sleep
@@ -43,7 +43,10 @@ class WindowMgr:
     """ 視窗座標寬高() """
     ### 獲取視窗座標寬高，傳回值為陣列[x,y,w,h] ###
     def get_window_pos_size(self):
-        rect = win32gui.GetWindowRect(win32gui.GetForegroundWindow())
+        try:
+            rect = win32gui.GetWindowRect(win32gui.GetForegroundWindow())
+        except:
+            rect = win32gui.GetWindowRect(win32gui.GetDesktopWindow())
         x = rect[0]
         y = rect[1]
         w = rect[2] - x
