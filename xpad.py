@@ -42,8 +42,8 @@ if __name__ == "__main__":
             exit(0)
         w=WindowMgr()
         w.set_cmd_title("::XPAD::")
-        w.set_window_alpha("::XPAD::",alpha_val=120)
-        w.set_window_on_top("::XPAD::",win_w=350,win_h=180,set_top=True)
+        w.set_window_alpha("::XPAD::",alpha_val=200)
+        w.set_window_on_top("::XPAD::",win_w=350,win_h=200,set_top=True)
         #全域變數區.START
         from Modules.IniVariable import *
         global_var=IniVariable()
