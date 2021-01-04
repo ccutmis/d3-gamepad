@@ -27,19 +27,24 @@ if __name__ == "__main__":
 
         set_deadzone(DEADZONE_TRIGGER,int(XY_OFFSET_UNIT))
         
-        controller1=get_connected()
-        if(controller1[0]==True):
-            print("------------------")
-            print("D3-Gamepad程式運作")
-            print("在此視窗中按下 [←Backspace] 可關閉程式")
-            print("或在遊戲中同時按住控制器:")
-            print("LEFT_SHOULDER+RIGHT_SHOULDER+X一秒關閉程式")
-            print("程式版本:"+XPAD_VERSION)
-            print("監控視窗:"+ACTIVE_WIN_TITLE)
-            print("-------------------------------")
-        else:
-            print("未偵測到控制器，程式結束。")
-            exit(0)
+        while 1:
+            controller1=get_connected()
+            if(controller1[0]==True):
+                print("-----------------------------------------")
+                print("D3-Gamepad程式運作")
+                print("在此視窗中按下 [←Backspace] 可關閉程式")
+                print("或在遊戲中同時按住控制器:")
+                print("LEFT_SHOULDER+RIGHT_SHOULDER+X一秒關閉程式")
+                print("程式版本:"+XPAD_VERSION)
+                print("監控視窗:"+ACTIVE_WIN_TITLE)
+                print("-----------------------------------------")
+                break
+            else:
+                errStr="未偵測到控制器，請接上支援的遊戲搖桿。"
+                print(errStr,end="")
+                print("\b"*len(errStr),end="", flush=True)
+                sleep(DELAY_SECOND*10)
+                #exit(0)
         w=WindowMgr()
         w.set_cmd_title("::XPAD::")
         w.set_window_alpha("::XPAD::",alpha_val=200)
