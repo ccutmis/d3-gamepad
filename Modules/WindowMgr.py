@@ -1,4 +1,4 @@
-WINDOWMGR_VERSION="00002A"
+WINDOWMGR_VERSION="00003A"
 import win32gui, win32com.client, win32con, winxpgui, win32api, ctypes
 from os import system
 from time import sleep
@@ -82,6 +82,11 @@ class WindowMgr:
     ### 程式暫停tmp_sec秒後執行，tmp_sec最小單位為0.1 ###
     def sleep_a_while(self,tmp_sec):
         sleep(tmp_sec)
+
+    """ 關閉當前視窗() """
+    ### 把目前是前景的視窗關閉 ###
+    def close_current_window(self):
+        win32gui.PostMessage(self._handle,win32con.WM_CLOSE,0,0)
 
     """ 結束程序(process_name) """
     ### 用taskkill /f /im 的dos cmd強制目標程式結束運作 ###
