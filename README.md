@@ -1,4 +1,4 @@
-[![watching-on-youtube](watching-on-youtube.png)](https://www.youtube.com/watch?v=cF4athGTqXw)
+[![watching-on-youtube](watching-on-youtube.png)](https://www.youtube.com/watch?v=jRizX1KbwZ8)
 
 # D3-XPAD
 
@@ -30,9 +30,9 @@
 
 D3-XPAD下載點:
 
-[XPAD-0007C.zip](XPAD-0007C.zip)
+[XPAD-0009A.zip](XPAD-0009A.zip)
 
-下載並解壓縮會得到一個 dist 資料夾，裡面有二個檔案:
+下載並解壓縮會得到一個 XPAD-0009A 資料夾，裡面有二個檔案:
 
 * xpad.exe (主程式直接點兩下即可執行)
 * xinput.ini (搖桿對應設定檔，建議使用Notepad++編輯)
@@ -44,6 +44,10 @@ D3-XPAD下載點:
 #這是一行註解
 
 #設定要啟用搖桿對應的程式標題文字，防止在切換不同視窗程式時可能造成的誤操作
+#這是一行註解
+
+#設定要啟用搖桿對應的程式標題文字，防止在切換不同視窗程式時可能造成的誤操作
+#ACTIVE_WIN_TITLE=" " #雙引號內為單個空白字元時，搖桿對應所有的視窗程式都會有作用，此模式在特殊場景下有妙用。
 ACTIVE_WIN_TITLE="暗黑破壞神III"
 
 #key_config字典用來定義按鍵值(設""則該鍵無作用)
@@ -83,6 +87,11 @@ KEY_ONOFF_MODE={
 	"RIGHT_TRIGER":0
 }
 
+LSTICK_DICT={"up":Key.up,"down":Key.down,"left":Key.left,"right":Key.right}
+
+#設定左小搖桿觸發後滑鼠游標是否連動
+SET_LFET_CONTROLLER_BIND_CURSOR = True
+
 #設定左小搖桿在控制滑鼠移動後是否按一下滑鼠左鍵
 #設為 True 則在左小搖桿控制滑鼠移動後會在滑鼠所在位置按一下左鍵，要取消則設為 False
 SET_LEFT_CONTROLLER_MOVE_AND_CLICK = True
@@ -90,13 +99,80 @@ SET_LEFT_CONTROLLER_MOVE_AND_CLICK = True
 LEFT_CONTROLLER_CLICK_VAL = "LM"
 
 #左右小搖桿控制滑鼠位移的一單位(像素)(基本上勿動)
-XY_OFFSET_UNIT=8
+XY_OFFSET_UNIT=10
+CURSOR_MOVE_UNIT=3
 
 #延時設定(基本上勿動)
-DELAY_SECOND=0.1
+DELAY_SECOND=0.05
 
 #Y軸中心點修正(基本上勿動)
-Y_CENTER_OFFSET=-(XY_OFFSET_UNIT*7)
+Y_CENTER_OFFSET=-(XY_OFFSET_UNIT*4)
+
+#勿動BTN_DICT及BTN2_DICT
+BTN_DICT={ "A":0, "B":1, "X":2, "Y":3, "BACK":4, "START":5, "DPAD_UP":6, "DPAD_DOWN":7, "DPAD_LEFT":8, "DPAD_RIGHT":9, "LEFT_SHOULDER":10, "RIGHT_SHOULDER":11, "LEFT_TRIGER":12, "RIGHT_TRIGER":13 }
+BTN2_DICT={ 0:"A", 1:"B", 2:"X", 3:"Y", 4:"BACK", 5:"START", 6:"DPAD_UP", 7:"DPAD_DOWN", 8:"DPAD_LEFT", 9:"DPAD_RIGHT", 10:"LEFT_SHOULDER", 11:"RIGHT_SHOULDER", 12:"LEFT_TRIGER", 13:"RIGHT_TRIGER" }
+#是否啟用degug模式(勿動) 預設值為False
+DEBUG_MODE=False
+
+ACTIVE_WIN_TITLE="暗黑破壞神III"
+
+#key_config字典用來定義按鍵值(設""則該鍵無作用)
+KEY_CONFIG={
+	"A":"1",
+	"B":"2",
+	"X":"3",
+	"Y":"4",
+	"BACK":"t",
+	"START":"q",
+	"DPAD_UP":"tab",
+	"DPAD_DOWN":"m",
+	"DPAD_LEFT":"i",
+	"DPAD_RIGHT":"s",
+	"LEFT_SHOULDER":"esc",
+	"RIGHT_SHOULDER":"LM",
+	"LEFT_TRIGER":"space",
+	"RIGHT_TRIGER":"RM"
+}
+
+#設定按鍵改為ON/OFF模式，就是按一下就保持按下狀態，再按一下就取消，
+#目前設定所有按鍵關閉此功能，可依自己需求作更改，1為ON，0為OFF，本功能需小心使用。
+KEY_ONOFF_MODE={
+	"A":0,
+	"B":0,
+	"X":0,
+	"Y":0,
+	"BACK":0,
+	"START":0,
+	"DPAD_UP":0,
+	"DPAD_DOWN":0,
+	"DPAD_LEFT":0,
+	"DPAD_RIGHT":0,
+	"LEFT_SHOULDER":0,
+	"RIGHT_SHOULDER":0,
+	"LEFT_TRIGER":0,
+	"RIGHT_TRIGER":0
+}
+
+LSTICK_DICT={"up":Key.up,"down":Key.down,"left":Key.left,"right":Key.right}
+
+#設定左小搖桿觸發後滑鼠游標是否連動
+SET_LFET_CONTROLLER_BIND_CURSOR = True
+
+#設定左小搖桿在控制滑鼠移動後是否按一下滑鼠左鍵
+#設為 True 則在左小搖桿控制滑鼠移動後會在滑鼠所在位置按一下左鍵，要取消則設為 False
+SET_LEFT_CONTROLLER_MOVE_AND_CLICK = True
+#設定左小搖桿控制滑鼠移動後會點的鍵，假如 SET_LEFT_CONTROLLER_MOVE_AND_CLICK 為 True
+LEFT_CONTROLLER_CLICK_VAL = "LM"
+
+#左右小搖桿控制滑鼠位移的一單位(像素)(基本上勿動)
+XY_OFFSET_UNIT=10
+CURSOR_MOVE_UNIT=3
+
+#延時設定(基本上勿動)
+DELAY_SECOND=0.05
+
+#Y軸中心點修正(基本上勿動)
+Y_CENTER_OFFSET=-(XY_OFFSET_UNIT*4)
 
 #勿動BTN_DICT及BTN2_DICT
 BTN_DICT={ "A":0, "B":1, "X":2, "Y":3, "BACK":4, "START":5, "DPAD_UP":6, "DPAD_DOWN":7, "DPAD_LEFT":8, "DPAD_RIGHT":9, "LEFT_SHOULDER":10, "RIGHT_SHOULDER":11, "LEFT_TRIGER":12, "RIGHT_TRIGER":13 }
@@ -116,7 +192,7 @@ DEBUG_MODE=False
 
 ## 3. 如何使用 :: How to Use
 
-1. 先開啟Diablo III，將畫面顯示設為"全螢幕視窗模式"或"視窗模式"。(這個很重要)
+1. 先開啟Diablo III，將畫面顯示設為"全螢幕視窗模式"或"視窗模式"。
 2. 確定你的xbox搖桿有接在PC端並正常運作中(可在控制台裡的裝置及印表機項目確認)
 3. 執行 xpad.exe 並切換到 Diablo III，拿起搖桿測試看看。
 4. 要結束 xpad.exe 很簡單，同時按住控制器的 (LEFT_SHOULDER)+(RIGHT_SHOULDER)+(X) 程式會直接結束。
@@ -126,7 +202,7 @@ DEBUG_MODE=False
 ## 4. 注意事項 :: Notice
 
 ### 設備需求:
-1. Windows10作業系統(Win7測試可玩但建議OS升到Win10)
+1. Windows11作業系統(Win10測試可玩但建議OS升到Win11)
 2. 目前測試可支援的PC相容搖桿為XBOX360、XBOX ONE、羅技F310，其它搖桿不確定是否可正常運作。
 
 ![support-equipments](support-equipments.png)
@@ -142,6 +218,10 @@ DEBUG_MODE=False
 -----
 
 ## 6. 更新日誌 :: Log
+
+### 更新日期: 2025-10-06 22:00:00 ver.0009A
+更新內容:
+* 把程式改成兼容 PoE2 WASD 輸入的搖桿設定，並修正一個小Bug(有時進到遊戲時程式會閃退，用try ... except pass的笨方法避掉此問題)，經過這次修正，使用Moonlight遠端連PC時使用本程式可以正常遊戲D3了。
 
 ### 更新日期: 2020-12-27 22:00:00 ver.0007C
 更新內容:
